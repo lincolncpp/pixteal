@@ -44,6 +44,7 @@ public:
     int catchReward(int x, int y);
 
     SDL_Point randomPoint();
+    SDL_Point getOrePosition();
 };
 
 #endif

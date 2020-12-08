@@ -83,3 +83,8 @@ SDL_Point World::randomPoint(){
     }
     return {x, y};
 }
+
+SDL_Point World::getOrePosition(){
+    if (ore_valid == false) return {-1, -1};
+    return {ore_x, ore_y};
+}

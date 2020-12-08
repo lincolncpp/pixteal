@@ -13,7 +13,7 @@
 #include <unistd.h>
 #endif
 
-#define FPS_LIMIT 120
+#define FPS_LIMIT 60
 
 class Texture;
 

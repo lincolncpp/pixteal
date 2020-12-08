@@ -10,10 +10,15 @@
 #include "sprite.h"
 #include "world.h"
 
+// Probabilidade de que, em cada passo, o inimigo vá em direção do tesouro
+#define ENEMY_PROBABILITY 0.5
+
 class Enemy: private Sprite{
 private:
     World *world;
     Text *text;
+
+    int points = 0;
 
     std::string name;
 
@@ -23,6 +28,8 @@ public:
     void render();
     void renderName();
     void update();
+
+    int getPoints();
 };
 
 #endif

@@ -20,6 +20,7 @@ Engine *engine;
 World *world;
 Player *player;
 Enemy *enemy[MAX_ENEMIES];
+pthread_t enemy_thread[MAX_ENEMIES];
 
 // Texturas
 Texture *texture_1px;
@@ -49,12 +50,24 @@ void render(){
     player->renderName();
 
     // Renderizando interface
-    texture_1px->setColor(50, 60, 57);
+    texture_1px->setColor(34, 32, 52);
     texture_1px->setWidth(WINDOW_WIDTH);
     texture_1px->setHeight(88);
     texture_1px->render();
 
-    text->setColor();
+    // Renderizando pontuação do jogador
+    text->setColor(251, 242, 54);
+    text->setText("Thread 1: "+std::to_string(player->getPoints()));
+    text->setPos(10, 10);
+    text->render();
+
+    text->setColor(255, 255, 255);
+    // Renderizando pontuação dos inimigos
+    for(int i = 0;i < MAX_ENEMIES;i++){
+        text->setText("Thread "+std::to_string(i+2)+": "+std::to_string(enemy[i]->getPoints()));
+        text->setPos(12 + (i+1)/3*128, 10 + 27*((i+1)%3));
+        text->render();
+    }
 }
 
 // Thread principal
@@ -132,10 +145,46 @@ void unload(){
     delete engine;
 }
 
+// Thread destinada ao processamento dos personagens inimigos
+void *enemyThread(void *arg){
+    Enemy *enemy = (Enemy*)arg;
+
+    while(engine->isRunning()){
+        unsigned int t0 = SDL_GetTicks();
+
+        // Atualizando inimigo
+        enemy->update();
+
+        // Ajustando FPS conforme o limite especificado
+        Engine::sleep(t0);
+    }
+
+    pthread_exit(NULL);
+}
+
+void createEnemiesThreads(){
+    // Criando atributo para definir as threads como JOINABLE
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+    for(int i = 0;i < MAX_ENEMIES;i++){
+        pthread_create(&enemy_thread[i], &attr, enemyThread, (void*)enemy[i]);
+    }
+
+    pthread_attr_destroy(&attr);
+}
+
+void joinEnemiesThreads(){
+    for(int i = 0;i < MAX_ENEMIES;i++){
+        pthread_join(enemy_thread[i], NULL);
+    }
+}
+
 int main(){
 
     // Setando semente para a geração de número aleatórios
-    srand (time(NULL));
+    srand(time(NULL));
 
     // Criando engine
     engine = new Engine(WINDOW_WIDTH, WINDOW_HEIGHT, "Pixteal");
@@ -143,8 +192,14 @@ int main(){
     // Carregando recursos
     load();
 
+    // Criando threads dos inimigos
+    createEnemiesThreads();
+
     // Iniciando engine
     engine->start(render, update);
+
+    // Esperando as threads finalizarem
+    joinEnemiesThreads();
 
     // Destruindo componentes
     unload();
