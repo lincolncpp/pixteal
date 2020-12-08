@@ -5,8 +5,8 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_ttf.h"
 #include "engine/texture.h"
+#include "world.h"
 
-#define SP_MARGIN_TOP 88
 #define SP_SPRITES 20
 #define SP_SPEED 200
 

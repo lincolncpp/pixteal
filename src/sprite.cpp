@@ -9,7 +9,7 @@ Sprite::Sprite(int id, int x, int y){
 }
 
 void Sprite::render(){
-    Sprite::texture->setPos(x*32 + offsetx, SP_MARGIN_TOP + y*32 + offsety);
+    Sprite::texture->setPos(x*32 + offsetx, WORLD_MARGIN_TOP + y*32 + offsety);
     Sprite::texture->setClip({id*32, 0, 32, 32});
     Sprite::texture->render();
 }

@@ -6,6 +6,7 @@
 #include "../include/engine/text.h"
 #include "../include/sprite.h"
 #include "../include/player.h"
+#include "../include/world.h"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 568
@@ -13,8 +14,10 @@
 // Engine
 Engine *engine;
 
+// Variáveis do jogo
+World *world;
+
 // Texturas
-Texture *texture_ground;
 Texture *texture_1px;
 
 // Fonte e texto
@@ -30,7 +33,7 @@ void render(){
     player->update();
 
     // Renderizando terreno
-    texture_ground->render();
+    world->render();
 
     // Renderizando interface
     texture_1px->setColor(50, 60, 57);
@@ -60,6 +63,9 @@ int main(){
     // Carregando textura dos personagens
     Sprite::loadTexture(new Texture(engine, "gfx/sprites.png"));
 
+    // Carregando terreno
+    world = new World(engine, "gfx/ground.png");
+
     // Criando objeto de jogador principal
     player = new Player(rand(), 5, 5);
 
@@ -70,8 +76,6 @@ int main(){
     text_name->setPos(5*32-16, 88+5*32-20);
 
     // Carregando texturas
-    texture_ground = new Texture(engine, "gfx/ground.png");
-    texture_ground->setY(88);
     texture_1px = new Texture(engine, "gfx/1px.png");
 
     // Iniciando engine
@@ -81,10 +85,10 @@ int main(){
     engine->join();
 
     // Destruindo componentes
+    delete world;
     delete player;
     delete font;
     delete text_name;
-    delete texture_ground;
     delete texture_1px;
     Sprite::unloadTexture();
     delete engine;
