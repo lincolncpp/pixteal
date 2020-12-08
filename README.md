@@ -1,4 +1,5 @@
 # Pixteal
+Desenvolvido para o curso de Sistemas Operacionais I. O jogo aplica conceitos de Threads e Semáforos e foi criado utilizando C++ e SDL2 como interface.
 
 <img src="https://i.ibb.co/jbTRK7F/print.png" alt="screenshot"></a>
 
