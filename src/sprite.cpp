@@ -14,9 +14,14 @@ void Sprite::render(){
     Sprite::texture->render();
 }
 
-void Sprite::update(){
+// Retorno:
+// True => Se a função alterar a posição (x, y) do sprite
+// False => Caso contrário
+bool Sprite::update(){
+    bool new_position = false;
     unsigned int t = SDL_GetTicks();
 
+    // Calcula coordenadas em caso de movimentação
     if (is_moving){
         if (move_time == 0) move_time = t;
         unsigned int delta = t-move_time;
@@ -38,8 +43,11 @@ void Sprite::update(){
             move_time = 0;
             offsetx = 0;
             offsety = 0;
+            new_position = true;
         }
     }
+
+    return new_position;
 }
 
 void Sprite::setX(int x){this->x = x;}

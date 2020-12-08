@@ -20,8 +20,17 @@ void Enemy::renderName(){
 }
 
 void Enemy::update(){
-    // Atualizando sprite
-    Sprite::update();
+    // Atualizando sprite e checando se a posição (x, y) foi alterada
+    if (Sprite::update()){
+        // Entrando na região critica
+        pthread_mutex_lock(&world->mutex);
+
+        // Pegando recompensa do chão (caso esteja em cima)
+        points += world->catchTreasure(x, y);
+
+        // Saindo da região crítica
+        pthread_mutex_unlock(&world->mutex);
+    }
 
     // Movimenta o personagem
     if (isMoving() == false){
@@ -30,12 +39,11 @@ void Enemy::update(){
         pthread_mutex_lock(&world->mutex);
 
         // Obtendo posição do tesouro
-        SDL_Point point = world->getOrePosition();
+        SDL_Point point = world->getTreasurePosition();
         int p = (rand()%100)+1;
 
-        // Se o tesouro não está no mapa ou p > ENEMY_PROBABILITY, então
-        // anda aleatoriamente para algum lado
-        if (point.x == -1 || p > ENEMY_PROBABILITY*100){
+        // Probabilidade p de dar um passo aleatório
+        if (p > ENEMY_PROBABILITY*100){
 
             // Tentativas finitas
             for(int i = 0;i < ENEMY_RANDOM_ATTEMPTS;i++){
@@ -67,7 +75,7 @@ void Enemy::update(){
                 }
             }
         }
-        else{ // Anda em direação do tesouro
+        else{ // Probabilidade 1-p de andar em direação do tesouro
 
             if (point.x > x && world->isOccupied(x+1, y) == false){ // Tesouro está à direita
                 world->setOccupied(x, y, false);
@@ -94,9 +102,6 @@ void Enemy::update(){
         // Saindo da região crítica
         pthread_mutex_unlock(&world->mutex);
     }
-
-    // Pegando recompensa do chão (caso esteja em cima)
-    points += world->catchReward(x, y);
 }
 
 int Enemy::getPoints(){

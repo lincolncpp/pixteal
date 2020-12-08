@@ -19,10 +19,19 @@ void Player::renderName(){
 }
 
 void Player::update(){
-    // Atualizando sprite
-    Sprite::update();
+    // Atualizando sprite e checando se a posição (x, y) foi alterada
+    if (Sprite::update()){
+        // Entrando na região critica
+        pthread_mutex_lock(&world->mutex);
 
-    // Checa se não está se movendo no momento e se existe algum movimento para fazer
+        // Pegando recompensa do chão (caso esteja em cima)
+        points += world->catchTreasure(x, y);
+
+        // Saindo da região crítica
+        pthread_mutex_unlock(&world->mutex);
+    }
+
+    // Checa se não está se movendo no momento e se existe alguma solicitação de movimento
     if (isMoving() == false && (moving_up|moving_right|moving_down|moving_left) == true){
 
         // Entrando na região critica
@@ -61,9 +70,6 @@ void Player::update(){
         // Saindo da região crítica
         pthread_mutex_unlock(&world->mutex);
     }
-
-    // Pegando recompensa do chão (caso esteja em cima)
-    points += world->catchReward(x, y);
 }
 
 int Player::getPoints(){

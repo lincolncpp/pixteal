@@ -38,7 +38,7 @@ public:
     Sprite(int id, int x, int y);
 
     void render();
-    void update();
+    bool update();
 
     void setX(int x);
     void setY(int y);

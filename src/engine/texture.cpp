@@ -4,6 +4,7 @@ Texture::Texture(Engine *engine, Font *font, const char *text, SDL_Color color) 
     this->engine = engine;
     free();
 
+    // Criando textura a partir da fonte e do texto dado
     SDL_Surface *text_surface = TTF_RenderText_Blended(font->font, text, color);
     if (text_surface == nullptr){
         std::cerr << "Unable to render text surface! SDL_ttf Error: " << TTF_GetError() << std::endl;
@@ -34,7 +35,7 @@ Texture::Texture(Engine *engine, const char *path) {
         exit(-1);
     }
 
-    // Obtendo dimensões
+    // Obtendo dimensões da textura carregada
     int real_width, real_height;
     SDL_QueryTexture(texture, nullptr, nullptr, &real_width, &real_height);
     src_width = real_width;

@@ -5,7 +5,6 @@ Text::Text(Engine *engine, Font *font, std::string text) {
     this->font = font;
     this->text = text;
     color = {255, 255, 255, 255};
-
     reloadTexture();
 }
 

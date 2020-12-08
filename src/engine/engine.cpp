@@ -11,7 +11,6 @@ Engine::Engine(int width, int height, const char *title) {
     // Criando janela
     window_width = width;
     window_height = height;
-
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_SHOWN);
     if(window == nullptr) {
         std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
@@ -38,12 +37,6 @@ Engine::Engine(int width, int height, const char *title) {
         std::cerr << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << std::endl;
         exit(-1);
     }
-
-    // Inicializando SDL_mixer
-    // if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ) {
-    //     std::cerr << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
-    //     exit(-1);
-    // }
 }
 
 Engine::~Engine() {
@@ -56,7 +49,6 @@ Engine::~Engine() {
     IMG_Quit();
     SDL_Quit();
     TTF_Quit();
-    // Mix_Quit();
     SDL_Quit();
 }
 

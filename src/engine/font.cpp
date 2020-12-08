@@ -20,7 +20,7 @@ void Font::free() {
 void Font::loadFont(const char *path, int size) {
     free();
 
-    // Carregando font .ttf
+    // Carregando fonte .ttfs
     font = TTF_OpenFont(path, size);
     if (font == nullptr){
         std::cerr << "Error on loading font! TTF_Error: " << TTF_GetError() << std::endl;
