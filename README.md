@@ -17,17 +17,23 @@ Pixeal foi projetado para ser executado em sistemas Linux e utiliza as bibliotec
 
 Para sistemas baseados no Arch use
 
-`pacman -S sdl2 sdl2_ttf sdl2_image`
+```
+pacman -S sdl2 sdl2_ttf sdl2_image
+```
 
 Para os baseados no Debian
 
-`apt install sdl2 sdl2_ttf sdl2_image`
+```
+apt install sdl2 sdl2_ttf sdl2_image
+```
 
 ### Compilando e executando
 
 Para compilar basta usar
 
-`make`
+```
+make
+```
 
 Em seguida, execute o arquivo gerado chamado _game_.
 
