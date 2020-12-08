@@ -29,9 +29,6 @@ Player *player;
 
 // Thread principal
 void render(){
-    // Atualizando
-    player->update();
-
     // Renderizando terreno
     world->render();
 
@@ -46,14 +43,29 @@ void render(){
 
 // Thread principal
 void update(){
+
     // Tratando eventos
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0){
         // Comando para fechar o programa
-        if (e.type == SDL_QUIT) engine->stop();
+        if (e.type == SDL_QUIT) {
+            engine->stop();
+            return;
+        }
 
-        
+        // Tecla para baixo ou para baixo
+        if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP){
+            SDL_Keycode code = e.key.keysym.sym;
+
+            if (code == SDLK_UP || code == SDLK_w) player->setMovingUp(e.type == SDL_KEYDOWN);
+            if (code == SDLK_RIGHT || code == SDLK_d) player->setMovingRight(e.type == SDL_KEYDOWN);
+            if (code == SDLK_DOWN || code == SDLK_s) player->setMovingDown(e.type == SDL_KEYDOWN);
+            if (code == SDLK_LEFT || code == SDLK_a) player->setMovingLeft(e.type == SDL_KEYDOWN);
+        }
     }
+
+    // Atualizando Jogador
+    player->update();
 }
 
 int main(){
@@ -70,7 +82,7 @@ int main(){
 
     // Carregando objetos do jogo
     world = new World(engine, "gfx/ground.png");
-    player = new Player(text, rand(), 5, 5);
+    player = new Player(world, text, rand(), 5, 5);
 
     // Carregando texturas
     texture_1px = new Texture(engine, "gfx/1px.png");

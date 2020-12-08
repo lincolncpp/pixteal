@@ -6,7 +6,6 @@
 #include "SDL2/SDL_ttf.h"
 #include <iostream>
 #include <string>
-#include "pthread.h"
 #include "engine.h"
 #include "texture.h"
 

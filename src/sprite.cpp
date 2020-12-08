@@ -52,6 +52,10 @@ void Sprite::move(int dir){
     }
 }
 
+bool Sprite::isMoving(){
+    return is_moving;
+}
+
 void Sprite::loadTexture(Texture *texture){
     Sprite::texture = texture;
     Sprite::texture->setWidth(32);

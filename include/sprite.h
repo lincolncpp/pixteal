@@ -15,7 +15,11 @@
 #define SP_DOWN 2
 #define SP_LEFT 3
 
+class Player;
+
 class Sprite{
+friend class Player;
+
 private:
     int id;
     int x;
@@ -38,6 +42,7 @@ public:
     void setY(int y);
     void setPos(int x, int y);
     void move(int dir);
+    bool isMoving();
 
     static void loadTexture(Texture *texture);
     static void unloadTexture();

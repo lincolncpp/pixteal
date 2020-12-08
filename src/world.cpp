@@ -16,10 +16,16 @@ World::World(Engine *engine, const char *path){
         occupied[0][y] = true;
         occupied[WORLD_WIDTH-1][y] = true;
     }
+
+    // Inicializando mutex
+    pthread_mutex_init(&mutex, NULL);
 }
 
 World::~World(){
     delete texture_ground;
+
+    // Destruindo mutex
+    pthread_mutex_destroy(&mutex);
 }
 
 void World::render(){

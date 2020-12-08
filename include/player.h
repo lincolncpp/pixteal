@@ -9,21 +9,27 @@
 #include "sprite.h"
 #include "world.h"
 
-class Player{
+class Player: private Sprite{
 private:
-    int x;
-    int y;
+    bool moving_up = false;
+    bool moving_right = false;
+    bool moving_down = false;
+    bool moving_left = false;
 
-    Sprite *sprite;
+    World *world;
     Text *text;
 
 public:
-    Player(Text *text, int id, int x, int y);
+    Player(World *world, Text *text, int id, int x, int y);
     ~Player();
 
     void render();
     void update();
-    void event(SDL_Event e);
+
+    void setMovingUp(bool value);
+    void setMovingRight(bool value);
+    void setMovingDown(bool value);
+    void setMovingLeft(bool value);
 };
 
 #endif
