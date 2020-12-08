@@ -4,7 +4,8 @@
 #include "../include/engine/texture.h"
 #include "../include/engine/font.h"
 #include "../include/engine/text.h"
-#include "../include/character.h"
+#include "../include/sprite.h"
+#include "../include/player.h"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 568
@@ -20,11 +21,14 @@ Texture *texture_1px;
 Font *font;
 Text *text_name;
 
-// Personagens
-Character *character_player;
+// Jogador
+Player *player;
 
 // Thread 0 (renderização)
 void render(){
+    // Atualizando
+    player->update();
+
     // Renderizando terreno
     texture_ground->render();
 
@@ -34,7 +38,7 @@ void render(){
     texture_1px->setHeight(88);
     texture_1px->render();
 
-    character_player->render();
+    player->render();
 
     text_name->render();
 }
@@ -42,6 +46,10 @@ void render(){
 // Thread 1 (entradas)
 void event(SDL_Event e){
 
+    if (e.type == SDL_KEYDOWN){
+        std::cout << "down" << std::endl;
+    }
+    // sprite_player->move(CHR_RIGHT);
 }
 
 int main(){
@@ -49,7 +57,13 @@ int main(){
     // Criando engine
     engine = new Engine(WINDOW_WIDTH, WINDOW_HEIGHT, "Pixteal");
 
-    // Carregando fonte e texto
+    // Carregando textura dos personagens
+    Sprite::loadTexture(new Texture(engine, "gfx/sprites.png"));
+
+    // Criando objeto de jogador principal
+    player = new Player(rand(), 5, 5);
+
+    // Carregando fonte e objeto para renderização de texto
     font = new Font("gfx/font.ttf", 16);
     text_name = new Text(engine, font, "Thread 0");
     text_name->setColor(20, 19, 30);
@@ -59,9 +73,6 @@ int main(){
     texture_ground = new Texture(engine, "gfx/ground.png");
     texture_ground->setY(88);
     texture_1px = new Texture(engine, "gfx/1px.png");
-    Character::loadTexture(new Texture(engine, "gfx/sprites.png"));
-
-    character_player = new Character(rand(), 5, 5);
 
     // Iniciando engine
     engine->start(render, event);
@@ -70,11 +81,12 @@ int main(){
     engine->join();
 
     // Destruindo componentes
-    Character::unloadTexture();
+    delete player;
     delete font;
     delete text_name;
     delete texture_ground;
     delete texture_1px;
+    Sprite::unloadTexture();
     delete engine;
 
     return 0;

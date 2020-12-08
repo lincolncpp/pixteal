@@ -1,19 +1,21 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef SPRITE_H
+#define SPRITE_H
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_ttf.h"
 #include "engine/texture.h"
 
-#define CHR_MARGIN_TOP 88
-#define CHR_SPRITES 20
-#define CHR_UP 0
-#define CHR_RIGHT 1
-#define CHR_DOWN 2
-#define CHR_LEFT 3
+#define SP_MARGIN_TOP 88
+#define SP_SPRITES 20
+#define SP_SPEED 200
 
-class Character{
+#define SP_UP 0
+#define SP_RIGHT 1
+#define SP_DOWN 2
+#define SP_LEFT 3
+
+class Sprite{
 private:
     int id;
     int x;
@@ -27,7 +29,7 @@ private:
     static Texture *texture;
 
 public:
-    Character(int id, int x, int y);
+    Sprite(int id, int x, int y);
 
     void render();
     void update();

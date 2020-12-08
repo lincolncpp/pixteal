@@ -15,7 +15,7 @@
 #endif
 
 
-#define FPS_LIMIT 60
+#define FPS_LIMIT 120
 
 class Texture;
 
