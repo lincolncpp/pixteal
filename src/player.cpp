@@ -61,6 +61,13 @@ void Player::update(){
         // Saindo da região crítica
         pthread_mutex_unlock(&world->mutex);
     }
+
+    // Pegando recompensa do chão (caso esteja em cima)
+    points += world->catchReward(x, y);
+}
+
+int Player::getPoints(){
+    return points;
 }
 
 void Player::setMovingUp(bool value){

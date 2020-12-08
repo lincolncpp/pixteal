@@ -34,12 +34,6 @@ void render(){
     // Renderizando terreno
     world->render();
 
-    // Renderizando interface
-    texture_1px->setColor(50, 60, 57);
-    texture_1px->setWidth(WINDOW_WIDTH);
-    texture_1px->setHeight(88);
-    texture_1px->render();
-
     // Renderizando inimigos
     for(int i = 0;i < MAX_ENEMIES;i++){
         enemy[i]->render();
@@ -53,6 +47,14 @@ void render(){
         enemy[i]->renderName();
     }
     player->renderName();
+
+    // Renderizando interface
+    texture_1px->setColor(50, 60, 57);
+    texture_1px->setWidth(WINDOW_WIDTH);
+    texture_1px->setHeight(88);
+    texture_1px->render();
+
+    text->setColor();
 }
 
 // Thread principal
@@ -80,6 +82,9 @@ void update(){
 
     // Atualizando Jogador
     player->update();
+
+    // Atualizando mapa
+    world->update();
 }
 
 // Popula o 'world' com o jogador principal e os inimígos
@@ -99,14 +104,8 @@ void populate(){
     }
 }
 
-int main(){
-
-    // Setando semente para a geração de número aleatórios
-    srand (time(NULL));
-
-    // Criando engine
-    engine = new Engine(WINDOW_WIDTH, WINDOW_HEIGHT, "Pixteal");
-
+// Carrega todos os recursos necessários
+void load(){
     // Carregando textura dos personagens
     Sprite::loadTexture(new Texture(engine, "gfx/sprites.png"));
 
@@ -115,16 +114,14 @@ int main(){
     text = new Text(engine, font, " ");
 
     // Carregando objetos do jogo
-    world = new World(engine, "gfx/ground.png");
+    world = new World(engine, "gfx/ground.png", "gfx/ores.png");
     populate();
 
     // Carregando texturas
     texture_1px = new Texture(engine, "gfx/1px.png");
+}
 
-    // Iniciando motor de renderização
-    engine->start(render, update);
-
-    // Destruindo componentes
+void unload(){
     delete world;
     delete player;
     for(int i = 0;i < MAX_ENEMIES;i++) delete enemy[i];
@@ -133,6 +130,24 @@ int main(){
     delete texture_1px;
     Sprite::unloadTexture();
     delete engine;
+}
+
+int main(){
+
+    // Setando semente para a geração de número aleatórios
+    srand (time(NULL));
+
+    // Criando engine
+    engine = new Engine(WINDOW_WIDTH, WINDOW_HEIGHT, "Pixteal");
+
+    // Carregando recursos
+    load();
+
+    // Iniciando engine
+    engine->start(render, update);
+
+    // Destruindo componentes
+    unload();
 
     return 0;
 }

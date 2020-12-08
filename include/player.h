@@ -17,6 +17,8 @@ private:
     bool moving_left = false;
     int priority = 0;
 
+    int points = 0;
+
     World *world;
     Text *text;
 
@@ -26,6 +28,8 @@ public:
     void render();
     void renderName();
     void update();
+
+    int getPoints();
 
     void setMovingUp(bool value);
     void setMovingRight(bool value);
