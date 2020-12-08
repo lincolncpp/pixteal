@@ -35,7 +35,7 @@ Baixe o código fonte do projeto usando
 git clone https://github.com/lincolncpp/Pixteal.git
 ```
 
-Para compilar basta usar
+Para compilar basta fazer
 
 ```
 cd Pixteal
