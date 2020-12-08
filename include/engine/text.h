@@ -34,6 +34,7 @@ public:
     void setFont(Font *font);
     void setX(int x);
     void setY(int y);
+    void setPos(int x, int y);
 
     void render();
 };

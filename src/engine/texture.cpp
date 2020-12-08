@@ -60,6 +60,7 @@ void Texture::render(){
 
 void Texture::setX(int x){rect.x = x;}
 void Texture::setY(int y){rect.y = y;}
+void Texture::setPos(int x, int y){rect.x = x, rect.y = y;}
 void Texture::setWidth(int width){rect.w = width;}
 void Texture::setHeight(int height){rect.h = height;}
 void Texture::setRect(SDL_Rect rect){this->rect = rect;}

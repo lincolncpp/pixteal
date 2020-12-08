@@ -40,6 +40,7 @@ public:
     void render();
     void setX(int x);
     void setY(int y);
+    void setPos(int x, int y);
     void setWidth(int width);
     void setHeight(int height);
     void setRect(SDL_Rect rect);

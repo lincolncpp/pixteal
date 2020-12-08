@@ -62,4 +62,9 @@ void Text::setY(int y){
     this->texture->setY(y);
 }
 
+void Text::setPos(int x, int y){
+    setX(x);
+    setY(y);
+}
+
 void Text::render(){texture->render();}
