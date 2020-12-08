@@ -5,7 +5,9 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_ttf.h"
 #include "engine/texture.h"
+#include "engine/text.h"
 #include "sprite.h"
+#include "world.h"
 
 class Player{
 private:
@@ -13,9 +15,10 @@ private:
     int y;
 
     Sprite *sprite;
+    Text *text;
 
 public:
-    Player(int id, int x, int y);
+    Player(Text *text, int id, int x, int y);
     ~Player();
 
     void render();

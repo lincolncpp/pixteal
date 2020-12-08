@@ -22,7 +22,7 @@ Texture *texture_1px;
 
 // Fonte e texto
 Font *font;
-Text *text_name;
+Text *text;
 
 // Jogador
 Player *player;
@@ -42,8 +42,6 @@ void render(){
     texture_1px->render();
 
     player->render();
-
-    text_name->render();
 }
 
 // Thread 1 (entradas)
@@ -63,22 +61,18 @@ int main(){
     // Carregando textura dos personagens
     Sprite::loadTexture(new Texture(engine, "gfx/sprites.png"));
 
-    // Carregando terreno
-    world = new World(engine, "gfx/ground.png");
-
-    // Criando objeto de jogador principal
-    player = new Player(rand(), 5, 5);
-
     // Carregando fonte e objeto para renderização de texto
     font = new Font("gfx/font.ttf", 16);
-    text_name = new Text(engine, font, "Thread 0");
-    text_name->setColor(20, 19, 30);
-    text_name->setPos(5*32-16, 88+5*32-20);
+    text = new Text(engine, font, " ");
+
+    // Carregando objetos do jogo
+    world = new World(engine, "gfx/ground.png");
+    player = new Player(text, rand(), 5, 5);
 
     // Carregando texturas
     texture_1px = new Texture(engine, "gfx/1px.png");
 
-    // Iniciando engine
+    // Iniciando motor de renderização
     engine->start(render, event);
 
     // Aguardando a finalização das threads da engine
@@ -88,7 +82,7 @@ int main(){
     delete world;
     delete player;
     delete font;
-    delete text_name;
+    delete text;
     delete texture_1px;
     Sprite::unloadTexture();
     delete engine;
