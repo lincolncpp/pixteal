@@ -10,10 +10,12 @@
 
 Engine *engine;
 
+// Thread 0 (renderização)
 void render(){
-    
+
 }
 
+// Thread 1 (entradas)
 void event(SDL_Event e){
 
 }
@@ -25,6 +27,9 @@ int main(){
 
     // Iniciando engine
     engine->start(render, event);
+
+    // Aguardando a finalização das threads da engine
+    engine->join();
 
     // Destruindo componentes
     delete engine;

@@ -43,6 +43,7 @@ public:
     ~Engine();
 
     void start(void render_function(), void event_function(SDL_Event e));
+    void join();
     bool isRunning();
     int getFps();
 

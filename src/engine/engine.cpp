@@ -49,18 +49,6 @@ Engine::Engine(int width, int height, const char *title) {
 }
 
 Engine::~Engine() {
-    // Aguardando a finalização das threads
-    int rc = pthread_join(thread_render, NULL);
-    if (rc){
-        std::cerr << "ERROR; return code from pthread_join() is " << rc << std::endl;
-        exit(-1);
-    }
-    rc = pthread_join(thread_event, NULL);
-    if (rc){
-        std::cerr << "ERROR; return code from pthread_join() is " << rc << std::endl;
-        exit(-1);
-    }
-
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
 
@@ -100,6 +88,22 @@ void Engine::start(void render_function(), void event_function(SDL_Event e)){
     pthread_attr_destroy(&attr);
 }
 
+void Engine::join(){
+    int rc = 0;
+
+    // Aguardando a finalização das threads
+    rc = pthread_join(thread_render, NULL);
+    if (rc){
+        std::cerr << "ERROR; return code from pthread_join() is " << rc << std::endl;
+        exit(-1);
+    }
+    rc = pthread_join(thread_event, NULL);
+    if (rc){
+        std::cerr << "ERROR; return code from pthread_join() is " << rc << std::endl;
+        exit(-1);
+    }
+}
+
 void *Engine::render(void *instance){
     Engine *engine = (Engine*)instance;
     unsigned int fps_tick = 0;
@@ -137,7 +141,7 @@ void *Engine::event(void *instance){
     while(run == true){
         unsigned int t0 = SDL_GetTicks();
 
-        // Tratamento de entradas
+        // Tratando entradas
         while (SDL_PollEvent(&e) != 0){
             if (e.type == SDL_QUIT){
                 run = false;
