@@ -32,6 +32,8 @@ public:
     void render();
     bool isOccupied(int x, int y);
     void setOccupied(int x, int y, bool value);
+
+    SDL_Point randomPoint();
 };
 
 #endif

@@ -41,3 +41,14 @@ bool World::isOccupied(int x, int y){
 void World::setOccupied(int x, int y, bool value){
     occupied[x][y] = value;
 }
+
+// Retorna um ponto (x, y) aleatório que não está ocupado no mapa
+SDL_Point World::randomPoint(){
+    int x = 0;
+    int y = 0;
+    while(occupied[x][y] == true){
+        x = rand()%WORLD_WIDTH;
+        y = rand()%WORLD_HEIGHT;
+    }
+    return {x, y};
+}

@@ -6,14 +6,16 @@ Player::Player(World *world, Text *text, int id, int x, int y) : Sprite(id, x, y
 }
 
 void Player::render(){
+    // Renderizando sprite
+    Sprite::render();
+}
+
+void Player::renderName(){
     // Renderizando nome
     text->setColor(251, 242, 54);
     text->setPos(x*32 - 16 + offsetx, WORLD_MARGIN_TOP + y*32 - 20 + offsety);
     text->setText("Thread 1");
     text->render();
-
-    // Renderizando sprite
-    Sprite::render();
 }
 
 void Player::update(){

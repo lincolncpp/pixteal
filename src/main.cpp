@@ -7,15 +7,19 @@
 #include "../include/sprite.h"
 #include "../include/player.h"
 #include "../include/world.h"
+#include "../include/enemy.h"
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 568
+#define MAX_ENEMIES 5
 
 // Engine
 Engine *engine;
 
 // Variáveis do jogo
 World *world;
+Player *player;
+Enemy *enemy[MAX_ENEMIES];
 
 // Texturas
 Texture *texture_1px;
@@ -24,8 +28,6 @@ Texture *texture_1px;
 Font *font;
 Text *text;
 
-// Jogador
-Player *player;
 
 // Thread principal
 void render(){
@@ -38,8 +40,19 @@ void render(){
     texture_1px->setHeight(88);
     texture_1px->render();
 
+    // Renderizando inimigos
+    for(int i = 0;i < MAX_ENEMIES;i++){
+        enemy[i]->render();
+    }
+
     // Renderizando jogador
     player->render();
+
+    // Renderizando texto dos personagens
+    for(int i = 0;i < MAX_ENEMIES;i++){
+        enemy[i]->renderName();
+    }
+    player->renderName();
 }
 
 // Thread principal
@@ -69,6 +82,23 @@ void update(){
     player->update();
 }
 
+// Popula o 'world' com o jogador principal e os inimígos
+void populate(){
+    SDL_Point p;
+
+    // Criando jogador principal
+    p = world->randomPoint();
+    player = new Player(world, text, rand(), p.x, p.y);
+    world->setOccupied(p.x, p.y, true);
+
+    // Criando inimigos
+    for(int i = 0;i < MAX_ENEMIES;i++){
+        p = world->randomPoint();
+        enemy[i] = new Enemy(world, text, "Thread "+std::to_string(i+2), rand(), p.x, p.y);
+        world->setOccupied(p.x, p.y, true);
+    }
+}
+
 int main(){
 
     // Setando semente para a geração de número aleatórios
@@ -86,7 +116,7 @@ int main(){
 
     // Carregando objetos do jogo
     world = new World(engine, "gfx/ground.png");
-    player = new Player(world, text, rand(), 5, 5);
+    populate();
 
     // Carregando texturas
     texture_1px = new Texture(engine, "gfx/1px.png");
@@ -97,6 +127,7 @@ int main(){
     // Destruindo componentes
     delete world;
     delete player;
+    for(int i = 0;i < MAX_ENEMIES;i++) delete enemy[i];
     delete font;
     delete text;
     delete texture_1px;

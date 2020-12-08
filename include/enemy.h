@@ -21,6 +21,7 @@ public:
     Enemy(World *world, Text *text, std::string name, int id, int x, int y);
 
     void render();
+    void renderName();
     void update();
 };
 

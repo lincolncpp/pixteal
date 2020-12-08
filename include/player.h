@@ -24,6 +24,7 @@ public:
     Player(World *world, Text *text, int id, int x, int y);
 
     void render();
+    void renderName();
     void update();
 
     void setMovingUp(bool value);
