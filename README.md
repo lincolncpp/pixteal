@@ -29,9 +29,16 @@ apt install sdl2 sdl2_ttf sdl2_image
 
 ### Compilando e executando
 
+Baixe o código fonte do projeto usando
+
+```
+git clone https://github.com/lincolncpp/Pixteal.git
+```
+
 Para compilar basta usar
 
 ```
+cd Pixteal
 make
 ```
 
