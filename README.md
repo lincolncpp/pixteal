@@ -38,17 +38,10 @@ Use as setas direcionais ou as teclas WASD para se mover
 
 O objetivo do jogo é pegar os minérios que vão surgindo aleatóriamente pelo mapa
 
+## Créditos
+- Fonte - [Cal Henderson](https://www.dafont.com/pt/pixelsix.font)
+- Arte gráfica - [dannorder](https://opengameart.org/content/roguedb32-plus-add-on-tiles)
 
+## Licença
 
-
-:construction: Under construction :construction: 
-
-Libraries
-- sdl2
-- sdl2_ttf
-- sdl2_image
-
-Links:
-- https://computing.llnl.gov/tutorials/pthreads/
-- https://opengameart.org/content/roguedb32-plus-add-on-tiles
-- https://www.dafont.com/pt/pixelsix.font
+Este projeto está licenciado sob a Licença MIT - consulte o arquivo [LICENSE.md](/LICENSE) para obter detalhes.
