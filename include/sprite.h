@@ -10,15 +10,17 @@
 #define SP_SPRITES 20
 #define SP_SPEED 200
 
-#define SP_UP 0
-#define SP_RIGHT 1
-#define SP_DOWN 2
-#define SP_LEFT 3
+#define SP_UP 1
+#define SP_RIGHT 2
+#define SP_DOWN 3
+#define SP_LEFT 4
 
 class Player;
+class Enemy;
 
 class Sprite{
-friend class Player;
+    friend class Player;
+    friend class Enemy;
 
 private:
     int id;

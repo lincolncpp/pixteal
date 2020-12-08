@@ -38,6 +38,7 @@ void render(){
     texture_1px->setHeight(88);
     texture_1px->render();
 
+    // Renderizando jogador
     player->render();
 }
 
@@ -69,6 +70,9 @@ void update(){
 }
 
 int main(){
+
+    // Setando semente para a geração de número aleatórios
+    srand (time(NULL));
 
     // Criando engine
     engine = new Engine(WINDOW_WIDTH, WINDOW_HEIGHT, "Pixteal");

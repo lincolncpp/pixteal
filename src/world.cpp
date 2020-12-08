@@ -10,7 +10,9 @@ World::World(Engine *engine, const char *path){
     // Marcando as paredes como ocupado
     for(int x = 0;x < WORLD_WIDTH;x++){
         occupied[x][0] = true;
+        occupied[x][1] = true;
         occupied[x][WORLD_HEIGHT-1] = true;
+        occupied[x][WORLD_HEIGHT-2] = true;
     }
     for(int y = 0;y < WORLD_HEIGHT;y++){
         occupied[0][y] = true;

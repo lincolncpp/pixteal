@@ -3,12 +3,6 @@
 Player::Player(World *world, Text *text, int id, int x, int y) : Sprite(id, x, y){
     this->world = world;
     this->text = text;
-    this->x = x;
-    this->y = y;
-}
-
-Player::~Player(){
-
 }
 
 void Player::render(){
@@ -23,6 +17,7 @@ void Player::render(){
 }
 
 void Player::update(){
+    // Atualizando sprite
     Sprite::update();
 
     // Checa se não está se movendo no momento e se existe algum movimento para fazer
@@ -31,17 +26,58 @@ void Player::update(){
         // Entrando na região critica
         pthread_mutex_lock(&world->mutex);
 
-        if (moving_up) move(SP_UP);
-        if (moving_right) move(SP_RIGHT);
-        if (moving_down) move(SP_DOWN);
-        if (moving_left) move(SP_LEFT);
+        // Move para a posição solicitada e disponível
+        if (moving_up && (priority == 0 || priority == SP_UP)) {
+            if (world->isOccupied(x, y-1) == false){
+                world->setOccupied(x, y, false);
+                world->setOccupied(x, y-1, true);
+                move(SP_UP);
+            }
+        }
+        else if (moving_right && (priority == 0 || priority == SP_RIGHT)) {
+            if (world->isOccupied(x+1, y) == false){
+                world->setOccupied(x, y, false);
+                world->setOccupied(x+1, y, true);
+                move(SP_RIGHT);
+            }
+        }
+        else if (moving_down && (priority == 0 || priority == SP_DOWN)){
+            if (world->isOccupied(x, y+1) == false){
+                world->setOccupied(x, y, false);
+                world->setOccupied(x, y+1, true);
+                move(SP_DOWN);
+            }
+        }
+        else if (moving_left && (priority == 0 || priority == SP_LEFT)) {
+            if (world->isOccupied(x-1, y) == false){
+                world->setOccupied(x, y, false);
+                world->setOccupied(x-1, y, true);
+                move(SP_LEFT);
+            }
+        }
 
         // Saindo da região crítica
         pthread_mutex_unlock(&world->mutex);
     }
 }
 
-void Player::setMovingUp(bool value){moving_up = value;}
-void Player::setMovingRight(bool value){moving_right = value;}
-void Player::setMovingDown(bool value){moving_down = value;}
-void Player::setMovingLeft(bool value){moving_left = value;}
+void Player::setMovingUp(bool value){
+    if (value == true && moving_up == false) priority = SP_UP;
+    if (value == false) priority = 0;
+    moving_up = value;
+}
+void Player::setMovingRight(bool value){
+    if (value == true && moving_right == false) priority = SP_RIGHT;
+    if (value == false) priority = 0;
+    moving_right = value;
+}
+void Player::setMovingDown(bool value){
+    if (value == true && moving_down == false) priority = SP_DOWN;
+    if (value == false) priority = 0;
+    moving_down = value;
+}
+void Player::setMovingLeft(bool value){
+    if (value == true && moving_left == false) priority = SP_LEFT;
+    if (value == false) priority = 0;
+    moving_left = value;
+}

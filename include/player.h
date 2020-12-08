@@ -15,13 +15,13 @@ private:
     bool moving_right = false;
     bool moving_down = false;
     bool moving_left = false;
+    int priority = 0;
 
     World *world;
     Text *text;
 
 public:
     Player(World *world, Text *text, int id, int x, int y);
-    ~Player();
 
     void render();
     void update();
