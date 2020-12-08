@@ -27,7 +27,7 @@ Text *text;
 // Jogador
 Player *player;
 
-// Thread 0 (renderização)
+// Thread principal
 void render(){
     // Atualizando
     player->update();
@@ -44,13 +44,16 @@ void render(){
     player->render();
 }
 
-// Thread 1 (entradas)
-void event(SDL_Event e){
+// Thread principal
+void update(){
+    // Tratando eventos
+    SDL_Event e;
+    while (SDL_PollEvent(&e) != 0){
+        // Comando para fechar o programa
+        if (e.type == SDL_QUIT) engine->stop();
 
-    if (e.type == SDL_KEYDOWN){
-        std::cout << "down" << std::endl;
+        
     }
-    // sprite_player->move(CHR_RIGHT);
 }
 
 int main(){
@@ -73,10 +76,7 @@ int main(){
     texture_1px = new Texture(engine, "gfx/1px.png");
 
     // Iniciando motor de renderização
-    engine->start(render, event);
-
-    // Aguardando a finalização das threads da engine
-    engine->join();
+    engine->start(render, update);
 
     // Destruindo componentes
     delete world;

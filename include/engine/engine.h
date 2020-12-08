@@ -14,7 +14,6 @@
 #include <unistd.h>
 #endif
 
-
 #define FPS_LIMIT 120
 
 class Texture;
@@ -27,23 +26,16 @@ private:
     SDL_Renderer *renderer = nullptr;
     int window_width = -1;
     int window_height = -1;
-    void (*render_function)();
-    void (*event_function)(SDL_Event);
     int fps = 0;
-
-    pthread_t thread_render;
-    pthread_t thread_event;
-
-    static bool run;
-    static void *render(void *instance);
-    static void *event(void *instance);
+    bool run = true;
 
 public:
     Engine(int width, int height, const char *title);
     ~Engine();
 
-    void start(void render_function(), void event_function(SDL_Event e));
-    void join();
+    void start(void render(), void update());
+
+    void stop();
     bool isRunning();
     int getFps();
 

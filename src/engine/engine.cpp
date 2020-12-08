@@ -1,7 +1,5 @@
 #include "../../include/engine/engine.h"
 
-bool Engine::run = true;
-
 Engine::Engine(int width, int height, const char *title) {
 
     // Inicializando SDL
@@ -62,99 +60,37 @@ Engine::~Engine() {
     SDL_Quit();
 }
 
-void Engine::start(void render_function(), void event_function(SDL_Event e)){
-    this->render_function = render_function;
-    this->event_function = event_function;
-    int rc = 0;
-
-    // Criando e definindo atributo das threads
-    pthread_attr_t attr;
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
-    // Iniciando thread de renderização e de eventos de entrada
-    rc = pthread_create(&thread_render, &attr, render, (void*)this);
-    if (rc){
-        std::cerr << "ERROR; return code from pthread_create() is " << rc << std::endl;
-        exit(-1);
-    }
-    rc = pthread_create(&thread_event, &attr, event, (void*)this);
-    if (rc){
-        std::cerr << "ERROR; return code from pthread_create() is " << rc << std::endl;
-        exit(-1);
-    }
-
-    // Destruindo objeto de atributo
-    pthread_attr_destroy(&attr);
-}
-
-void Engine::join(){
-    int rc = 0;
-
-    // Aguardando a finalização das threads
-    rc = pthread_join(thread_render, NULL);
-    if (rc){
-        std::cerr << "ERROR; return code from pthread_join() is " << rc << std::endl;
-        exit(-1);
-    }
-    rc = pthread_join(thread_event, NULL);
-    if (rc){
-        std::cerr << "ERROR; return code from pthread_join() is " << rc << std::endl;
-        exit(-1);
-    }
-}
-
-void *Engine::render(void *instance){
-    Engine *engine = (Engine*)instance;
+void Engine::start(void render(), void update()){
     unsigned int fps_tick = 0;
     int frame = 0;
 
     while(run == true){
         unsigned int t0 = SDL_GetTicks();
 
-        // Renderização
-        SDL_RenderClear(engine->renderer);
-        engine->render_function();
-        SDL_RenderPresent(engine->renderer);
+        // Chamando função de atualização
+        update();
 
-        unsigned int t1 = SDL_GetTicks();
+        // Chamando função de renderização
+        SDL_RenderClear(renderer);
+        render();
+        SDL_RenderPresent(renderer);
 
         // Calculando FPS
+        unsigned int t1 = SDL_GetTicks();
         frame++;
         if (t1 >= fps_tick+1000){
             fps_tick = t1;
-            engine->fps = frame;
+            fps = frame;
             frame = 0;
         }
 
         // Ajustando FPS conforme o limite especificado
         Engine::sleep(t0);
     }
-
-    pthread_exit(NULL);
 }
 
-void *Engine::event(void *instance){
-    Engine *engine = (Engine*)instance;
-    SDL_Event e;
-
-    while(run == true){
-        unsigned int t0 = SDL_GetTicks();
-
-        // Tratando entradas
-        while (SDL_PollEvent(&e) != 0){
-            if (e.type == SDL_QUIT){
-                run = false;
-            }
-
-            engine->event_function(e);
-        }
-
-        // Ajustando FPS conforme o limite especificado
-        Engine::sleep(t0);
-    }
-
-    pthread_exit(NULL);
+void Engine::stop(){
+    run = false;
 }
 
 bool Engine::isRunning(){
