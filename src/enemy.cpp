@@ -37,7 +37,8 @@ void Enemy::update(){
         // anda aleatoriamente para algum lado
         if (point.x == -1 || p > ENEMY_PROBABILITY*100){
 
-            while(true){
+            // Tentativas finitas
+            for(int i = 0;i < ENEMY_RANDOM_ATTEMPTS;i++){
                 int dir = (rand()%4)+1;
 
                 if (dir == SP_UP && world->isOccupied(x, y-1) == false){

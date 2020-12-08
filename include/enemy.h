@@ -12,6 +12,7 @@
 
 // Probabilidade de que, em cada passo, o inimigo vá em direção do tesouro
 #define ENEMY_PROBABILITY 0.5
+#define ENEMY_RANDOM_ATTEMPTS 10
 
 class Enemy: private Sprite{
 private:
