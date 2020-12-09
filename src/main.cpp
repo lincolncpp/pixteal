@@ -86,10 +86,14 @@ void update(){
         if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP){
             SDL_Keycode code = e.key.keysym.sym;
 
-            if (code == SDLK_UP || code == SDLK_w) player->setMovingUp(e.type == SDL_KEYDOWN);
-            if (code == SDLK_RIGHT || code == SDLK_d) player->setMovingRight(e.type == SDL_KEYDOWN);
-            if (code == SDLK_DOWN || code == SDLK_s) player->setMovingDown(e.type == SDL_KEYDOWN);
-            if (code == SDLK_LEFT || code == SDLK_a) player->setMovingLeft(e.type == SDL_KEYDOWN);
+            if (code == SDLK_k || code == SDLK_UP 	|| code == SDLK_w) 
+				player->setMovingUp(e.type == SDL_KEYDOWN);
+            if (code == SDLK_l || code == SDLK_RIGHT || code == SDLK_d) 
+				player->setMovingRight(e.type == SDL_KEYDOWN);
+            if (code == SDLK_j || code == SDLK_DOWN || code == SDLK_s) 
+				player->setMovingDown(e.type == SDL_KEYDOWN);
+            if (code == SDLK_h || code == SDLK_LEFT || code == SDLK_a) 
+				player->setMovingLeft(e.type == SDL_KEYDOWN);
         }
     }
 
